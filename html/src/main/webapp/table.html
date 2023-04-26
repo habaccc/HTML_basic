@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>HTML</title>
+	</head>
+	<body>
+		<h1>HTML Table</h1>
+        <!-- 테이블 관련 태그:
+            <table>: 테이블 시작, 끝.
+            <caption>: 테이블 제목.
+            <thead>: table header.
+            <tbody>: table body.
+            <tfoot>: table footer.
+            <tr>: table row(행)
+            <td>: table date. 셀 데이터.
+            <th>: table cell header. 행 또는 열의 이름을 표시. 
+         -->
+        
+        <table>
+            <caption>Front-End 시험 성적</caption>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>HTML</th>
+                    <th>CSS</th>
+                    <th>JavaScript</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>100</td>
+                    <td>90</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>80</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>합계</td>
+                    <td>300</td>
+                    <td>290</td>
+                    <td>280</td>
+                </tr>
+            </tfoot>
+        </table>
+        <table>
+            <caption>회원 정보</caption>
+            <thead>
+                <tr>
+                    <th>아이디</th>
+                    <th>비밀번호</th>
+                    <th>이메일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                </tr>
+                <tr>
+                    <td>itwill</td>
+                    <td>1234</td>
+                    <td>itwill@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>wjdwldjs</td>
+                    <td>1234</td>
+                    <td>wjd1234@naver.com</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th colspan="2">전화번호</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>홍길동</td>
+                    <td>010-1234-5678</td>
+                    <td>02-1234-5678</td>
+                </tr>
+                <tr>
+                    <td>아이티윌</td>
+                    <td>010-0000-0000</td>
+                    <td>02-0000-0000</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table>
+            <tbody>
+                <tr>
+                    <th>이름</th>
+                    <td>홍길동</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">전화번호</th>
+                    <td>010-1234-5678</td>
+                </tr>
+                <tr>
+                    <td>02-1234-5678</td>
+                </tr>
+            </tbody>
+        </table>
+        <style>
+             table{ border-collapse : collapse; }  /*이중선 제거*/
+             th,td{
+                  width: 150px;
+                  height: 0px;
+                  text-align: center;
+                  border: 1px solid #000;
+                }
+        </style>
+       
+                    
+        
+	</body>
+</html>
