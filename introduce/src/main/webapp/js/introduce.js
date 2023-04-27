@@ -26,28 +26,28 @@ const callback = (entries, observer) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       switch (entry.target.id) {
-        case "about__age":
+        case "about__me":
           icons.forEach((icon) => icon.classList.remove("icon-active"));
           icons[1].classList.add("icon-active");
           break;
-        case "about__traveling":
+        case "about__dogs":
           icons.forEach((icon) => icon.classList.remove("icon-active"));
           icons[2].classList.add("icon-active");
           break;
 
-        case "about__concert":
+        case "about__cats":
           icons.forEach((icon) => icon.classList.remove("icon-active"));
           icons[3].classList.add("icon-active");
           break;
-        case "about__major":
+        case "about__traveling":
           icons.forEach((icon) => icon.classList.remove("icon-active"));
           icons[4].classList.add("icon-active");
           break;
-        case "about__graduate":
+        case "about__camping":
           icons.forEach((icon) => icon.classList.remove("icon-active"));
           icons[5].classList.add("icon-active");
           break;
-        case "about__wecode":
+        case "about__pictures":
           icons.forEach((icon) => icon.classList.remove("icon-active"));
           icons[6].classList.add("icon-active");
           break;
