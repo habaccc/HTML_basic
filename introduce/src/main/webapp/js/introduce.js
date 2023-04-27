@@ -1,12 +1,20 @@
 const about = document.querySelector(".about");
+// about 클래스를 가진 요소를 선택하고 -> about 변수에 할당
 const sections = about.querySelectorAll("div");
+// about 요소 내의 모든 div 요소를 선택하고 -> sections 변수에 할당.
 const quickIconContainer = document.querySelector(".quick-icons");
+// quick-icons 클래스를 가진 요소를 선택하고 -> quickIconContainer 변수에 할당.
 const icons = quickIconContainer.querySelectorAll("li");
+// quickIconContainer 요소 내의 모든 li 요소를 선택 -> icons 변수에 할당
 
 const homeIcon = icons[0].firstChild;
 homeIcon.addEventListener("click", () => {
   icons.forEach((icon) => icon.classList.remove("icon-active"));
 });
+// icons 배열에서 첫 번째 li요소의 첫 번째 자식 요소를 선택 -> homeicon 변수에 할당.
+// homeicon 요소에 클릭 이벤트 리스너 추가 -> 이벤트가 발생하면 콜백 함수 실행.
+// 콜백 함수는 icons 배열의 모든 요소를 반복하면서 icon-active 클래스를 제거.
+// 페이지의 홈 아이콘이 클릭되면 다른 아이콘에 적용되어 있는 icon-active를 모두 제거하는 역할.
 
 const options = {
   root: null, //default : viewport .. 부모컨테이너를 지정해줄 수 있다.
