@@ -24,4 +24,14 @@
     <servlet-name>redirectServlet</servlet-name>
     <url-pattern>/ex4</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MvcServlet</display-name>
+    <servlet-name>MvcServlet</servlet-name>
+    <servlet-class>com.itwill.jsp1.controller.MvcServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MvcServlet</servlet-name>
+    <url-pattern>/MvcServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
