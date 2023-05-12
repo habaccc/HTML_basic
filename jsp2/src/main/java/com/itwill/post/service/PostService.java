@@ -58,4 +58,10 @@ public class PostService {
         
         return postDao.update(post);
     }
+
+    public List<Post> search(String category, String keyword) {
+        log.info("search(category={}, keyword={})", category, keyword);
+        
+        return postDao.search(category, keyword);
+    }
 }

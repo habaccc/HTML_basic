@@ -11,7 +11,6 @@
        <header>
             <h1>포스트 목록 페이지</h1>
         </header> 
-        
         <nav>
             <ul>
                 <li>
@@ -53,7 +52,19 @@
                         </tr>
                     </c:forEach>
                 </tbody>
+            
             </table>
+            <c:url value="/post/search" var="searchPage"></c:url>
+            <form action= "${ searchPage } ">
+                <select name="category">
+                    <option value="t">제목</option>
+                    <option value="c">내용</option>
+                    <option value="tc">제목 + 내용</option>
+                    <option value="a">작성자</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어" required autofocus/>
+                <input type="submit" value="검색" />
+            </form>
         </main>
     </body>
 </html>

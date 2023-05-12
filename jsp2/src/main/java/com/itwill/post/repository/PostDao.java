@@ -226,5 +226,61 @@ public class PostDao {
         
         return result;
     }
+    
+    private static final String SQL_SELECT_BY_TITLE = "select * from POSTS where title LIKE ?";
+    private static final String SQL_SELECT_BY_CONTENT = "select * from POSTS where content LIKE ?";
+    private static final String SQL_SELECT_BY_TITLE_AND_CONTENT = "select * from POSTS where title LIKE ? or content LIKE ?";
+    private static final String SQL_SELECT_BY_AUTHOR = "select * from POSTS where author LIKE ?";
+    public List<Post> search(String category, String keyword) {
+        List<Post> posts = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        String sql = null;
+
+        try {
+            conn = ds.getConnection();
+            
+            if (category.equals("t")) {
+                sql = SQL_SELECT_BY_TITLE;
+            } else if (category.equals("c")) {
+                sql = SQL_SELECT_BY_CONTENT;
+            } else if (category.equals("tc")) {
+                sql = SQL_SELECT_BY_TITLE_AND_CONTENT;
+            } else if (category.equals("a")) {
+                sql = SQL_SELECT_BY_AUTHOR;
+            }
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + keyword + "%");
+            
+            if(category.equals("tc")) {
+                stmt.setString(2, "%" + keyword + "%");
+            }
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Post post = recordToPost(rs);
+                posts.add(post);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                conn.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return posts;
+    }
 
 }

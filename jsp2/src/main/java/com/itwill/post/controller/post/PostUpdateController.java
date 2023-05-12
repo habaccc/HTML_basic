@@ -43,7 +43,6 @@ public class PostUpdateController extends HttpServlet {
 	    int result = postService.update(post);
 	    log.info("포스트 업데이트 결과 = {}", result);
 	    
-	    
 	    // 수정 후 상세보기 페이지로 redirect
 	    response.sendRedirect("/jsp2/post/detail?id=" + id);
 	}
