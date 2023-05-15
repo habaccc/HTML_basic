@@ -1,8 +1,9 @@
 package com.itwill.post.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
+import com.zaxxer.hikari.HikariDataSource;
+// 서버가 시작되기전에 미리 겟 커넥션과 클로즈커넥션의 시간을 줄여주는 데이터 풀 기능
 public class HikariDataSourceUtil {
     // singleton 디자인 패턴 적용:
     private static HikariDataSourceUtil instance = null;
