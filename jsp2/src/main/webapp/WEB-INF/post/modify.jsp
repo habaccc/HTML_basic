@@ -16,6 +16,11 @@
         <nav>
             <ul>
                 <li>
+                    <c:url value="/user/signout" var="signOut" />
+                    <span>${ signedInUser }</span>
+                    <a href="${ signOut }">로그아웃</a>
+                </li>
+                <li>
                     <c:url value="/" var="mainPage" />
                     <a href="${ mainPage }">메인 페이지</a>
                 </li>
@@ -48,10 +53,15 @@
                 <div>
                     <input type="text" value="${ post.author }" readonly/>
                 </div>
-                <div>
-                    <button id="btnUpdate">수정완료</button>
-                    <button id="btnDelete">삭제</button> 
-                </div>
+                <%-- 로그인한 유저가 아닌 다른 사용자가 주소를 알고 주소를 쳐서 들어올 수 있는데 그렇게 되면 다른사람이 글을 수정하거나 삭제할 수 있게됨.
+                    이것을 방지하기 위해서 post방식인 수정완료, 삭제 버튼은 밑의 방식으로 막을 수 있음. 주소는 들어올 수 있지만 글을 수정하거나 삭제할 수 없음.
+                 --%>
+                <c:if test="${ signedInUser == post.author }">
+                    <div>
+                        <button id="btnUpdate">수정완료</button>
+                        <button id="btnDelete">삭제</button> 
+                    </div>
+                </c:if>
             </form>
         </main>
         
