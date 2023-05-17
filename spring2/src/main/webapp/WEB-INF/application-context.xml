@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <!-- bean definitions here --> 
+    <!-- 여기에 선언한 클래스들은 스프링워크가 딱 한번만 생성해서 필요한곳에 넣어준다. 필요하다고 선언하는게 바로 Autowired -->
+    <!-- 자바 코드로 만들면 이런 코드 -->
+    <!-- HikariConfig hikariConfig = new HikariConfig(); 생성자 호출 -->
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <!-- hikariConfig.setDriverClassName("...") 메서드 호출 -->
+        <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <property name="username" value="scott" />
+        <property name="password" value="tiger" />
+    </bean>
+   
+    <!-- 자바 코드로 만들면 이런 코드 -->
+    <!-- HikariDataSource dataSource = new HikariDataSource(hikariConfig);-->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"> <!-- 여기만 쓰면 기본생성자만 호출 -->
+        <constructor-arg ref="hikariConfig" /> <!-- ref: 참조변수 (아규먼트를 넘겨주려면 변수가 필요하니까) -->
+    </bean>
+    
+    
+</beans>
