@@ -26,5 +26,20 @@
         <constructor-arg ref="hikariConfig" /> <!-- ref: 참조변수 (아규먼트를 넘겨주려면 변수가 필요하니까) -->
     </bean>
     
-    
+    <!-- SqlSessionFactoryBean 객체:
+        Data Source(Connection Pool)을 이용해서 SQL문장들을 실행하고 결과 처리를 수행하는 객체.
+     -->
+     
+     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> <!-- id는 변수이름 클래스는 라이브러리가 있었던 패키치 이름 -->
+        <property name="dataSource" ref="dataSource" /> <!-- name - 클래스가 가지고 있는 프로퍼티의 이름(멤버변수의 이름) / ref 레퍼런스 - 생성된 객체를 의미함. -->
+        <property name="mapperLocations" value="classpath:/mappers/**/*.xml" /> <!-- value는 그냥 문자열을 전달함. ref는 아이디를 찾아가서 그 아이디에 해당하는 객체를 아이디에 저장함. ref와 value의 차이점. -->
+        <!-- classpath: src/main/java, src/main/resources 같은 사용할수 있는 파일들을 의미함.-->
+     </bean>
+     
+     <!-- MyBatis 프레임워크에서 생성하고 관리하는 bean들을 base-package와 그 하위 패키지에서 검색함. -->   
+     <mybatis:scan base-package="com.itwill.spring2.repository"/>
+     
+     <!-- Service 애너테이션이 설정된 객체들을 spring container가 생성하고 관리. -->
+     <context:component-scan base-package="com.itwill.spring2.service" />
+        
 </beans>
