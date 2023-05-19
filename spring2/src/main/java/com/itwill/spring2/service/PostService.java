@@ -1,11 +1,16 @@
 package com.itwill.spring2.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwill.spring2.domain.Post;
+import com.itwill.spring2.dto.PostCreateDto;
+import com.itwill.spring2.dto.PostDetailDto;
+import com.itwill.spring2.dto.PostListDto;
+import com.itwill.spring2.dto.PostUpdateDto;
 import com.itwill.spring2.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,31 +34,45 @@ public class PostService {
     private final PostRepository postRepository; // 2. (1) 생성자에 의한 의존성 주입
     
     // 포스트 목록 페이지
-    public List<Post> read() {
+    public List<PostListDto> read() {
         log.info("read()");
         
-        return postRepository.selectOrderByIdDesc(); // 우리가 직접 리파지토리를 생성하는게 아니라 포스트리파지토리에 메서드만 부르면 됨.
+        List<Post> list = postRepository.selectOrderByIdDesc();
+//        return postRepository.selectOrderByIdDesc(); // 우리가 직접 리파지토리를 생성하는게 아니라 포스트리파지토리에 메서드만 부르면 됨.
+        
+//        List<PostListDto> result = new ArrayList<>();
+//        for(Post p : list) {
+//            PostListDto dto = PostListDto.fromEntity(p);
+//            result.add(dto);
+//        }
+//        return result;
+        
+        // 위에 코드를 간단하게 쓴 것
+        return list.stream().map(PostListDto::fromEntity).toList(); // map에는 람다표현식을 사용하면 됨. // 이 문장은 반복문임.
     }
     
-    //
-    public Post read(long id) {
+    // 포스트 상세보기 페이지
+    public PostDetailDto read(long id) {
         log.info("read(id={})", id);
         
-        return postRepository.selectById(id);
+        Post entity = postRepository.selectById(id);
+
+        return PostDetailDto.fromEntity(entity); // entity에서 dto를 만들어줌.
     }
     
-    // 포스트
-    public int create(Post post) {
-        log.info("create({})", post);
+    // 새 포스트 작성 페이지
+    public int create(PostCreateDto dto) {
+        log.info("create({})", dto);
         
-        return postRepository.insert(post);
+        // PostCreateDto 타입을 Post 타입으로 변환해서 Repository 계층의 메서드를 호출(DB insert를 하기 위해서.) 
+        return postRepository.insert(dto.toEntity());
     }
     
     // 포스트 업데이트
-    public int update(Post post) {
-        log.info("update({})", post);
+    public int update(PostUpdateDto dto) {
+        log.info("update({})", dto);
         
-        return postRepository.updateTitleAndUpdateContent(post);
+        return postRepository.updateTitleAndUpdateContent(dto.updateEntity());
     }
     
     // 포스트 삭제

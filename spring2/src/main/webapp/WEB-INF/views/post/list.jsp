@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,31 +33,42 @@
             </ul>
         </nav>
         
-        <main>
-            <div>
-                <table class="table table-dark table-striped">
+        <main class="my-2">
+            <div class="card">
+                <table class="card-body table table-hover">
                     <thead>
                         <tr>
                             <th>번호</th>
                             <th>제목</th>
-                            <th>내용</th>
+                            <th>작성자</th>
                             <th>작성시간</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${ posts }" var="post">
+                        <c:forEach items="${ posts }" var="post"> <!-- 반복문 -->
                             <tr>
                                 <td>${ post.id }</td>
-                                <td>${ post.title }</td>
-                                <td>${ post.content }</td>
-                                <td>${ post.created_time }</td>
+                                <td>
+                                    <c:url var="PostDetailPage" value="/post/detail" >
+                                        <c:param name="id" value="${ post.id }" />
+                                    </c:url>
+                                    <a href="${ PostDetailPage }">${ post.title }</a>
+                                </td>
+                                <td>${ post.author }</td>
+                                <td>
+                                    <fmt:formatDate value="${ post.createdTime }" 
+                                        pattern="yyyy-MM-dd HH:mm:ss"/>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </div>
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" 
+        crossorigin="anonymous"></script>
     </div>
     </body>
 </html>
