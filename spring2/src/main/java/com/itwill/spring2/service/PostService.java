@@ -69,15 +69,15 @@ public class PostService {
     }
     
     // 포스트 업데이트
-    public int update(PostUpdateDto dto) {
-        log.info("update({})", dto);
+    public int update(PostUpdateDto post) {
+        log.info("update({})", post);
         
-        return postRepository.updateTitleAndUpdateContent(dto.updateEntity());
+        return postRepository.updateTitleAndUpdateContent(post.updateEntity());
     }
     
     // 포스트 삭제
     public int delete(long id) {
-        log.info("delete({})", id);
+        log.info("delete(id={})", id);
         
         return postRepository.deleteById(id);
     }
