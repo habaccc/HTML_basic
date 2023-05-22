@@ -2,19 +2,20 @@
  * 
  */
 
- document.addEventListener('DOMContentLoaded', function () {
-     
-     const form = document.querySelector('#postModifyForm');
-     
-     const inputId = document.querySelector('input#id');
-     
-     const inputTitle = document.querySelector('input#title');
-     
-     const textareaContent = document.querySelector('textarea#content');
-     
-     const btnUpdate = document.querySelector('button#btnUpdate');
-
-     const btnDelete = document.querySelector('button#btnDelete');
+ document.addEventListener('DOMContentLoaded', () => {
+	 
+	 const modifyForm = document.querySelector('#modifyForm');
+	 
+	 // 삭제 버튼을 찾아서 이벤트 리스너를 등록
+     const btnDelete = document.querySelector('#btnDelete');
+     btnDelete.addEventListener('click', () => {
+		 const check = confirm('정말 삭제할까요?');
+		 if (check) {
+			 modifyForm.action = './delete'; // 'delete' // 폼 요청 주소
+			 modifyForm.method = 'post'; // 폼 요청 방식
+			 modifyForm.submit(); // 폼 제출 -> 요청을 서버로 보냄.
+		 }
+	 }
  
     btnUpdate.addEventListener('click', (e) => {
         e.preventDefault();
