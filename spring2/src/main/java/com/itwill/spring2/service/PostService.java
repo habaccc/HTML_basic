@@ -12,6 +12,7 @@ import com.itwill.spring2.dto.PostDetailDto;
 import com.itwill.spring2.dto.PostListDto;
 import com.itwill.spring2.dto.PostUpdateDto;
 import com.itwill.spring2.repository.PostRepository;
+import com.itwill.spring2.repository.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +33,15 @@ public class PostService {
 //    @Autowired private PostRepository postRepository; // 1. 필드에 의한 의존성 주입
     
     private final PostRepository postRepository; // 2. (1) 생성자에 의한 의존성 주입
+    private final ReplyRepository replyRepository;
     
     // 포스트 목록 페이지
     public List<PostListDto> read() {
         log.info("read()");
         
-        List<Post> list = postRepository.selectOrderByIdDesc();
+        return postRepository.selectWithReplyCount();
+        
+//        List<Post> list = postRepository.selectOrderByIdDesc();
 //        return postRepository.selectOrderByIdDesc(); // 우리가 직접 리파지토리를 생성하는게 아니라 포스트리파지토리에 메서드만 부르면 됨.
         
 //        List<PostListDto> result = new ArrayList<>();
@@ -48,16 +52,25 @@ public class PostService {
 //        return result;
         
         // 위에 코드를 간단하게 쓴 것
-        return list.stream().map(PostListDto::fromEntity).toList(); // map에는 람다표현식을 사용하면 됨. // 이 문장은 반복문임.
+//        return list.stream().map(PostListDto::fromEntity).toList(); // map에는 람다표현식을 사용하면 됨. // 이 문장은 반복문임.
     }
     
     // 포스트 상세보기 페이지
     public PostDetailDto read(long id) {
         log.info("read(id={})", id);
         
+        // DB에 POSTS 테이블에서 검색.
         Post entity = postRepository.selectById(id);
-
-        return PostDetailDto.fromEntity(entity); // entity에서 dto를 만들어줌.
+        // 검색한 내용을 DTO로 변환.
+        PostDetailDto dto = PostDetailDto.fromEntity(entity); // entity에서 dto를 만들어줌.
+        
+        // DB REPLIES 테이블에서 댓글 개수를 검색.
+        long count = replyRepository.selectReplyCountWithPostId(id);
+        dto.setReplyCount(count);
+        
+        return dto;
+                
+        
     }
     
     // 새 포스트 작성 페이지
