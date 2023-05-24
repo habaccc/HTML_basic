@@ -77,9 +77,12 @@
             <section class="my-2 card">
                 <div class="card-header text">
                     <span>댓글</span>
-                    <span id="replyCount">${ post.replyCount }</span>개 <!-- 실제 댓글 개수 --> 
-                    <button class="btn" id="btnToggleReply" data-toggle="toggle-off">보이기</button>
-                </div>
+                    <span id="replyCount">${ post.replyCount }</span>개
+                    <button class="btn" id="btnToggleReply">
+                        <img id="toggleBtnIcon" 
+                            src="../static/assets/icons/toggle2-off.svg" 
+                            alt="toggle-off" width="32"/>
+                    </button>
                 <div class="card-body collapse" id="replyToggleDiv">
                     <!-- 내 댓글 등록 -->
                     <div class="my-2 row">

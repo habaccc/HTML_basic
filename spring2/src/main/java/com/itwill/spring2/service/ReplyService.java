@@ -1,8 +1,12 @@
 package com.itwill.spring2.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.itwill.spring2.domain.Reply;
 import com.itwill.spring2.dto.ReplyCreateDto;
+import com.itwill.spring2.dto.ReplyReadDto;
 import com.itwill.spring2.repository.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,5 +23,21 @@ public class ReplyService {
         log.info("create{dto={})", dto);
         
         return replyRepository.insert(dto.toEntity());
+    }
+
+    public List<ReplyReadDto> read(long postId) {
+        log.info("read(postId={})", postId);
+        
+        List<Reply> list = replyRepository.selectByPostId(postId);
+        
+        return list.stream().map(ReplyReadDto::fromEntity).toList(); // stream을 사용하는 방식
+        // list가 있으면 하나씩 보내고 mapper가 ReplyReadDto가 가지고 있는 fromentity함수를 를 호출해서 값이 바뀜. 값을 다 모은게 toList
+    }
+    
+    public int delete(long id) {
+        log.info("delete(id={})", id);
+                                   
+        return replyRepository.delete(id);
+        
     }
 }
