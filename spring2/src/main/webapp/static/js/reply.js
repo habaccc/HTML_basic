@@ -38,12 +38,61 @@ document.addEventListener('DOMContentLoaded', () => {
             }); // 실패
     };
     
+    // 댓글 수정 모달 객체를 생성
+    const modal = new bootstrap.Modal('div#replyUpdateModal', {backdrop: false});
+    
+    // 모달의 엘리먼트 찾기
+    const modalInput = document.querySelector('input#modalReplyId');
+    const modalTextarea = document.querySelector('textarea#modalReplyText');
+    const modalBtnUpdate = document.querySelector('button#modalBtnUpdate');
+    
+    
     // 댓글 수정 버튼의 이벤트리스너 함수(콜백함수) - 댓글 수정 모달을 보여주는 함수
     const showUpdateModal = (e) => {
         //console.log(e);
-        console.log(e.target);
-
+        //console.log(e.target);
+        const id = e.target.getAttribute('data-id');
+        const reqUrl = `/spring2/api/reply/${id}`;
+        axios.get(reqUrl) // 서버로 GET 방식의 Ajax 요청을 보냄
+            .then((response) => {
+                // reponse에 포함된 data 객체에서 id, replyText 값을 찾음.
+                const {id, replyText} = response.data;
+                
+                // id와 replyText를 모달의 input과 textarea에 씀.
+                modalInput.value = id;
+                modalTextarea.value = replyText;
+                
+                // 모달을 보여줌.
+                modal.show();
+                
+            }) // 성공 응답이 왔을 때 실행할 콜백을 등록
+            .catch((error) => console.log(error)); // 실패 응답이 왓을 때 실행할 콜백 등록.
     };
+    
+    const updateReply = () => {
+        // 수정할 댓글 아이디
+        const id = modalInput.value;
+        // 수정할 댓글 내용
+        const replyText = modalTextarea.value;
+        // PUT 방식의 Ajax 요청을 보냄.
+        const reqUrl = `/spring2/api/reply/${id}`;
+        const data = { replyText }; // 원래 자바스크립트의 객체를 선언할때에는, { key: value }이런식으로 써주어야 함. { replyText: replyText}
+        // 그런데 키 값이 그 키에들어가는 밸류의 변수이름과 동일한 경우에는 { replyText } 라고 써도 됨.
+        
+        // Ajax요청에 대한 성공/실패 콜백을 등록.
+        axios.put(reqUrl,data)
+            .then((response) => { // 수정을 성공 했을 때
+                alert(`댓글 업데이트 성공(${response.data})`)
+                getRepliesWithPostId(); // 댓글 목록 업데이트
+            })
+            .catch((error) => console.log(error)) // 실패했을때 로그 출력.
+            .finally(() => modal.hide()); // 성공했든 실패했든 모달을 닫기.
+    };
+    
+    // 모달에서 [수정 내용 저장] 버튼 이벤트 리스너 등록.
+    modalBtnUpdate.addEventListener('click', updateReply); // 함수는 간단하면 화살표함수로 만들어도 되지만 내용이 길어진다면 함수의 이름을 미리
+    
+    
     
     // 댓글 목록 HTML을 작성하고 replies 영역에 html을 추가하는 함수.
     // argument data: Ajax 요청의 응답으로 전달받은 데이터.
@@ -113,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await axios.get(reqUrl); // 요청을 보냄.
             console.log(response);
             // 댓글 개수 업데이트 & 댓글 목록 보여주기
-            makeReplyElements(response.data);
+            makeReplyElements(response.data); 
 
         } catch (error) {
             console.log(error);

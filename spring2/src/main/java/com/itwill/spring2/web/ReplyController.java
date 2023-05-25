@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.itwill.spring2.domain.Reply;
 import com.itwill.spring2.dto.ReplyCreateDto;
 import com.itwill.spring2.dto.ReplyReadDto;
+import com.itwill.spring2.dto.ReplyUpdateDto;
 import com.itwill.spring2.service.ReplyService;
 
 import lombok.AllArgsConstructor;
@@ -63,10 +65,29 @@ public class ReplyController {
     }
     
     @DeleteMapping("/{id}") // url주소는 변수 변하는 부분만 써주면 됨.
-    public ResponseEntity<Integer> deleteReply(@PathVariable long id) { // 몇개행이 삭제되었는지만 알면되니까 integer
+    public ResponseEntity<Integer> deleteReply(@PathVariable long id) { // 몇개 행이 삭제되었는지만 알면되니까 integer
         log.info("deleteReply(id={})", id);
         
         int result = replyService.delete(id);
+        
+        return ResponseEntity.ok(result);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<ReplyReadDto> readById(@PathVariable long id) {
+        log.info("readById(id={})", id);
+        
+        ReplyReadDto dto = replyService.readById(id);
+        log.info("dto={}", dto);
+        
+        return ResponseEntity.ok(dto);
+    }
+    
+    @PutMapping("/{id}") // 아규먼트 이름은 id와 같게 해준다.
+    public ResponseEntity<Integer> updateReply(@PathVariable long id, @RequestBody ReplyUpdateDto dto) { // 레스트 방식으로 하니까 responseENtity를 사용
+        log.info("updateReply(id={}, dto={})", id, dto);
+        
+        int result = replyService.update(id, dto);
         
         return ResponseEntity.ok(result);
     }

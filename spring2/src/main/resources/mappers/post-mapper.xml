@@ -7,9 +7,9 @@
 <!-- namespace의 값은 PostRepository 인터페이스가 있는 패키지 이름과 인터페이스 이름. -->
     
     <select id="selectWithReplyCount"
-        resultType="com.itwill.spring2.dto.PostListDto">
+        resultType="com.itwill.spring2.dto.PostListDto"> <!-- left join하는 이유는 댓글이 없는 포스트가 있을 수 있기 때문 -->
         select P.ID, P.TITLE, P.AUTHOR, P.CREATED_TIME, count(R.ID) as RCNT
-        from POSTS P left join REPLIES R
+        from POSTS P left join REPLIES R 
             on P.ID = R.POST_ID
         group by P.ID, P.TITLE, P.AUTHOR, P.CREATED_TIME
         order by P.ID desc
