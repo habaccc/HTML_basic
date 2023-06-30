@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
@@ -11,6 +12,7 @@
     crossorigin="anonymous">
 </head>
 <body>
+    <div>
     <div class="container-fluid">
         <header class="my-2 p-5 text-bg-dark text-center">
             <h1>Spring Boot App</h1>
@@ -27,14 +29,37 @@
                 </button>
                 <div class="collapse navbar-collapse"
                     id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
                         <a class="nav-link active" th:href="@{/post}">포스트</a> 
+                        </li>
+                        <li class="nav-item">
                         <a class="nav-link" th:href="@{/post/create}">새 포스트</a> 
-                        <a class="nav-link disabled" th:href="@{/}">로그인</a> 
+                        </li>
+                        <!-- 인증된 사용자이면(로그인 상태이면) -->
+                        <th:block sec:authorize="isAuthenticated()">
+                            <li class="nav-item">
+                                <!-- 로그인한 username 표시 -->
+                                <span sec:authentication="name"></span>
+                                <a class="nav-link" th:href="@{/logout}">로그아웃</a>
+                            </li>
+                        </th:block>
+                        
+                        <!-- 익명 사용자이면(로그인 하지 않은 상태이면) -->
+                        <th:block sec:authorize="isAnonymous()">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/login}">로그인</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disable">회원가입</a>
+                            </li>
+                        </th:block>
+                    </ul>
                     </div>
                 </div>
+                </nav>
             </div>
-        </nav>
+        
         <!-- main 컨텐트가 삽입될 위치 -->
         <th:block layout:fragment="main"></th:block>
     </div>

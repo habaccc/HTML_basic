@@ -2,6 +2,7 @@ package com.itwill.spring3.web;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,13 +38,15 @@ public class PostController {
         return "/post/read";
     }
     
+    @PreAuthorize("hasRole('USER')") // 페이지 접근 이전에 인증(권한, 로그인) 여부를 확인. 
     @GetMapping("/create")
     public void create() {
         log.info("create() GET");
+
+        // 리턴값이 없는 경우 view의 이름은 요청 주소와 같음.
     }
     
-        // 리턴값이 없는 경우 view의 이름은 요청 주소와 같음.
-    
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/create")
     public String create(PostCreateDto dto) {
         log.info("create(dto={}) POST", dto);
@@ -56,6 +59,7 @@ public class PostController {
     }
     
     // "/post/details", "/post/modify" 요청 주소들을 처리하는 컨트롤러 메서드.
+    @PreAuthorize("hasRole('USER')")
     @GetMapping({"/details", "/modify"}) // 이 메서드는 요청주소 2개를 처리할 수 있게 함.
     public void read(Long id, Model model) {
         log.info("read(id={})", id);
@@ -72,6 +76,7 @@ public class PostController {
         // details -> details.html, modify -> modify.html
     }
     
+<<<<<<< HEAD
     @PostMapping("/modify")
     public String update(PostUpdateDto dto, long id) {
         
@@ -80,6 +85,9 @@ public class PostController {
         return "redirect:/post";
     }
     
+=======
+    @PreAuthorize("hasRole('USER')")
+>>>>>>> a258134 (commit)
     @PostMapping("/delete")
     public String delete(long id) {
 
@@ -88,4 +96,31 @@ public class PostController {
         return "redirect:/post/read";
 
     }
+<<<<<<< HEAD
+=======
+    
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/update")
+    public String update(PostUpdateDto dto) {
+    	log.info("update(dto={})", dto);
+    	
+    	// 포스트 업데이트 서비스 호출:
+    	postService.update(dto);
+    	
+    	return "redirect:/post/details?id=" + dto.getId();
+    }
+    
+    @GetMapping("/search")
+    public String search(PostSearchDto dto, Model model) {
+    	log.info("search(dto={})", dto);
+    	
+    	// postService의 검색 기능 호출:
+    	List<Post> list = postService.search(dto);
+    	
+    	// 검색 결과를 Model에 저장해서 뷰로 전달:
+    	model.addAttribute("posts", list);
+    	
+    	return "/post/read";
+    }
+>>>>>>> a258134 (commit)
 }
